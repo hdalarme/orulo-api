@@ -1,7 +1,7 @@
 class Api::V1::OruloBuildingsController < Api::V1::ApiController # ApplicationController
 
     def index
-        render json: GetOruloBuildingListService.new().call
+        render json: GetOruloBuildingListService.new(params[:page]).call
     end
 
     def show
