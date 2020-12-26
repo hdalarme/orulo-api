@@ -8,5 +8,8 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
+         
   include DeviseTokenAuth::Concerns::User
+
+  has_many :favorites, class_name: "favorite", foreign_key: "favorite_id"
 end
