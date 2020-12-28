@@ -24,8 +24,13 @@ class Api::V1::FavoritesController < ApplicationController
         @favorite.destroy
     end
 
-    def show
-        render json: @favorite
+    def index
+        @fav = Favorite.joins(:building)
+        .select('favorites.id as favorite_id, buildings.orulo_building_id as id, favorites.user_id')
+        .where(["orulo_building_id = ? and user_id = ?", params[:orulo_building_id], params[:user_id] ])
+        .limit(1)
+        #@fav = Building.where(["orulo_building_id = ?"], :id)
+        render json: @fav
     end
 
     def building_params
