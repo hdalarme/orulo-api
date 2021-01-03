@@ -1,4 +1,5 @@
 class Api::V1::FavoritesController < ApplicationController
+    before_action :set_favorite, only: [:destroy]
 
     def create
         ActiveRecord::Base.transaction do
@@ -25,12 +26,16 @@ class Api::V1::FavoritesController < ApplicationController
     end
 
     def index
-        @fav = Favorite.joins(:building)
+        @favorite = Favorite.joins(:building)
         .select('favorites.id as favorite_id, buildings.orulo_building_id as id, favorites.user_id')
         .where(["orulo_building_id = ? and user_id = ?", params[:orulo_building_id], params[:user_id] ])
         .limit(1)
         #@fav = Building.where(["orulo_building_id = ?"], :id)
-        render json: @fav
+        render json: @favorite
+    end
+
+    def set_favorite
+        @favorite = Favorite.find(params[:id])
     end
 
     def building_params
